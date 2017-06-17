@@ -6,7 +6,12 @@
 package cantinamonetizada;
 
 import cantinamonetizada.buffer;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
@@ -21,32 +26,51 @@ public class controleOperacoes {
     public controleOperacoes() {
     }
 
-    public boolean verificaSaldo(int matricula) throws IOException {
-        buffer b = new buffer();
-        b.testebuffer();
-        return true;
-    }
+//    public boolean verificaSaldo(int matricula) throws IOException {
+//        buffer b = new buffer();
+//        b.testebuffer();
+//        return true;
+//    }
+	public static void main(String args[]) {
 
-    public static void main(String[] args) throws FileNotFoundException, IOException {
-        RandomAccessFile aFile = new RandomAccessFile("data/nio-data.txt", "rw");
-        FileChannel inChannel = aFile.getChannel();
+		File f = new File("data.txt");
 
-//create buffer with capacity of 48 bytes
-        ByteBuffer buf = ByteBuffer.allocate(48);
-
-        int bytesRead = inChannel.read(buf); //read into buffer.
-        while (bytesRead != -1) {
-
-            buf.flip();  //make buffer ready for read
-
-            while (buf.hasRemaining()) {
-                System.out.print((char) buf.get()); // read 1 byte at a time
-            }
-
-            buf.clear(); //make buffer ready for writing
-            bytesRead = inChannel.read(buf);
-        }
-        aFile.close();
-    }
+		try {
+			FileWriter fw = new FileWriter(f);
+			BufferedWriter bw = new BufferedWriter(fw);
+			
+			bw.write("Esse texto está sendo inserido");
+			
+			//INSERE UMA NOVA LINHA
+			bw.newLine();
+			
+			bw.write("Continua sendo inserido em uma nova linha");
+			
+			bw.newLine();
+			
+			bw.write("Continua sendo inserido em uma 3ª linha");
+			
+			bw.flush();
+			bw.close();
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		//EFETUANDO A LEITURA
+		try {
+			FileReader fr = new FileReader(f);
+			BufferedReader br = new BufferedReader(fr);
+			String s;
+			
+			//ENQUANTO EXISTE DADOS CONTINUA IMPRIMINDO
+			while ((s = br.readLine()) != null) {
+				System.out.println(s);
+			}
+		} catch (IOException e) {
+			System.out.println("###### Erro: "+e.getMessage());
+			e.printStackTrace();
+		}
+	}
 
 }
