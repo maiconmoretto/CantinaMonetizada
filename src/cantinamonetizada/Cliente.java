@@ -14,11 +14,11 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.net.Socket;
+import java.util.ArrayList;
 import javax.swing.*;
 
 public class Cliente extends JFrame implements ActionListener, KeyListener {
 
-    
     private static final long serialVersionUID = 1L;
     private JTextArea texto;
     private JTextField txtMsg;
@@ -46,6 +46,8 @@ public class Cliente extends JFrame implements ActionListener, KeyListener {
         texto = new JTextArea(10, 20);
         texto.setEditable(false);
         texto.setBackground(new Color(240, 240, 240));
+
+        //texto.append(produtos);
         txtMsg = new JTextField(20);
         lblHistorico = new JLabel("Histórico");
         lblMsg = new JLabel("Mensagem");
@@ -68,7 +70,7 @@ public class Cliente extends JFrame implements ActionListener, KeyListener {
         pnlContent.setBackground(Color.LIGHT_GRAY);
         texto.setBorder(BorderFactory.createEtchedBorder(Color.BLUE, Color.BLUE
         ));
-     txtMsg.setBorder(BorderFactory.createEtchedBorder(Color.BLUE, Color.BLUE));
+        txtMsg.setBorder(BorderFactory.createEtchedBorder(Color.BLUE, Color.BLUE));
         setTitle(txtNome.getText());
         setContentPane(pnlContent);
         setLocationRelativeTo(null);
@@ -86,7 +88,7 @@ public class Cliente extends JFrame implements ActionListener, KeyListener {
      * @throws IOException
      */
     public void conectar() throws IOException {
-
+        texto.append("Digite seu pedido! \r\n");
         socket = new Socket(txtIP.getText(), Integer.parseInt(txtPorta.getText()));
         ou = socket.getOutputStream();
         ouw = new OutputStreamWriter(ou);
@@ -109,7 +111,7 @@ public class Cliente extends JFrame implements ActionListener, KeyListener {
             texto.append("Desconectado \r\n");
         } else {
             bfw.write(msg + "\r\n");
-            texto.append(txtNome.getText() + " diz -> " + txtMsg.getText() + "\r\n");
+            texto.append("Eu -> " + txtMsg.getText() + "\r\n");
         }
         bfw.flush();
         txtMsg.setText("");
@@ -126,8 +128,30 @@ public class Cliente extends JFrame implements ActionListener, KeyListener {
         InputStreamReader inr = new InputStreamReader(in);
         BufferedReader bfr = new BufferedReader(inr);
         String msg = "";
+        texto.append("Servidor caiu! \r\n");
 
         while (!"Sair".equalsIgnoreCase(msg)) {
+
+            if (bfr.ready()) {
+                msg = bfr.readLine();
+                if (msg.equals("Sair")) {
+                    texto.append("Servidor caiu! \r\n");
+                } else {
+                    texto.append(msg + "\r\n");
+                }
+            }
+        }
+    }
+
+    public void verProdutos() throws IOException {
+
+        InputStream in = socket.getInputStream();
+        InputStreamReader inr = new InputStreamReader(in);
+        BufferedReader bfr = new BufferedReader(inr);
+        String msg = "";
+
+        while (!"Sair".equalsIgnoreCase(msg)) {
+
             if (bfr.ready()) {
                 msg = bfr.readLine();
                 if (msg.equals("Sair")) {

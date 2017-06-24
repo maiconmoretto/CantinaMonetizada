@@ -9,13 +9,6 @@ package cantinamonetizada;
  *
  * @author 631410161
  */
-public class CantinaMonetizada {
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        // TODO code application logic here
-    }
+class SampleServer {
     
 }

@@ -1,8 +1,0 @@
-1. Um cliente (aluno) realiza a autenticação no Terminal do Cliente informando a matrícula e a
-senha, e as informações são repassadas para o Servidor;
-2. O Servidor valida a autenticação e envia o cardápio para o Terminal do Cliente que apresenta
-para o cliente;
-3. O cliente escolhe os produtos que pretende consumir e as informações são repassadas para
-o Servidor;
-4. O Servidor verifica se o cliente tem saldo suficiente para realizar a compra, e caso tenha,
-desconta o saldo do cliente;
